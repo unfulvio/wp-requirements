@@ -24,9 +24,12 @@ Usage example:
 		// Print errors as dashboard admin notices when trying to activate the plugin.
 		$errors = $requirements->errors();
 		if ( $errors ) {
+			add_action( 'admin_notices', create_function( '',
+				"echo '<div class=\"error\"><p>Unfortunately the plugin X cannot be activated. The minimum requirements in your installation were not met.</p></div>';"
+			) );
 			foreach( $errors as $error ) {
 				// WordPress supports 5.2.4 so use `create_function` instead of anonymous function.
-				add_action( 'admin_notices', create_function( '', "echo $error;" ) );
+				add_action( 'admin_notices', create_function( '', "echo '<div class=\"error\"><p>' . $error . '</p></div>';" ) );
 			}
 		}
 	
