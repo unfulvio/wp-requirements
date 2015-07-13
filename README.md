@@ -25,7 +25,7 @@ Usage example:
 		$errors = $requirements->errors();
 		if ( $errors ) {
 			foreach( $errors as $error ) {
-				// WordPress presumes 5.2.4 so use `create_function` instead of anonymous function.
+				// WordPress supports 5.2.4 so use `create_function` instead of anonymous function.
 				add_action( 'admin_notices', create_function( '', "echo $error;" ) );
 			}
 		}
