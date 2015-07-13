@@ -10,8 +10,14 @@ Usage example:
 	// You can place this at the beginning of your plugin, after the plugin headers.
 	require_once 'wp-requirements.php`
 	
+	// Set your requirements.
+	$my_requirements = array(
+		'php' => '5.4.0',
+		'wp'  => '4.0.0'
+	);
+	
 	// Checks if the minimum WP version is 4.0.0 and minimum PHP version is 5.4.0.
-	$requirements = new WP_requirements( '4.0.0', '5.4.0' );
+	$requirements = new WP_requirements( $my_requirements );
 	
 	// If minimum requirements aren't met:
 	if ( $requirements->pass() === false ) {
