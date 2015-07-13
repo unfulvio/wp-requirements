@@ -8,7 +8,7 @@ Usage example:
 
 	
 	// You can place this at the beginning of your plugin, after the plugin headers.
-	require_once 'wp-requirements.php`
+	require_once 'wp-requirements.php';
 	
 	// Set your requirements.
 	$my_requirements = array(
