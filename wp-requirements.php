@@ -16,32 +16,26 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 	class WP_Requirements {
 
 		/**
-		 * WordPress Version.
-		 *
-		 * Should be a string with a valid version like '4.0.0'.
+		 * WordPress.
 		 *
 		 * @access private
-		 * @var string
+		 * @var bool
 		 */
 		private $wp = true;
 
 		/**
-		 * PHP Version.
-		 *
-		 * Should be a string with a valid version like '5.4.0'
+		 * PHP.
 		 *
 		 * @access private
-		 * @var string
+		 * @var bool
 		 */
 		private $php = true;
 
 		/**
 		 * PHP Extensions.
 		 *
-		 * Array of PHP extensions to check if they are loaded.
-		 *
 		 * @access private
-		 * @var array
+		 * @var bool
 		 */
 		private $ext = true;
 
