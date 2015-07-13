@@ -152,17 +152,10 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		 * @return bool
 		 */
 		public function pass() {
-			$pass = true;
-			if ( $this->wp === false ) {
-				$pass = false;
+			if ( in_array( false, array( $this->wp, $this->php, $this->ext ) ) ) {
+				return false;
 			}
-			if ( $this->php === false ) {
-				$pass = false;
-			}
-			if ( $this->ext === false ) {
-				$pass = false;
-			}
-			return $pass;
+			return true;
 		}
 
 	}
