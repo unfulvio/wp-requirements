@@ -77,8 +77,6 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 							$errors[] = sprintf( 'The minimum WordPress version required is %1$s, WordPress version found: %2$s', '`' . $requirements['wp'] . '`', '`' . $wp_version . '`' );
 						}
 						$this->wp = false;
-					} else {
-						$this->wp = true;
 					}
 
 				}
@@ -95,8 +93,6 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 							$errors[] = sprintf( 'The minimum PHP version required is %1$s, PHP version found: %2$s', '`' . $requirements['php'], '`' . PHP_VERSION . '``' );
 						}
 						$this->php = false;
-					} else {
-						$this->php = true;
 					}
 
 				}
@@ -110,7 +106,6 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 						}
 					}
 					if ( in_array( false, $extensions ) ) {
-						$this->ext = false;
 						foreach ( $extensions as $extension ) {
 							if ( $extension === false ) {
 								if ( isset( $messages[ $extension ] ) ) {
@@ -120,6 +115,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 								}
 							}
 						}
+						$this->ext = false;
 					}
 				}
 
