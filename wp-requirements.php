@@ -46,10 +46,9 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		private $ext = true;
 
 		/**
-		 * Display errors.
+		 * Errors.
 		 *
-		 * An array of errors to display according to failure check.
-		 * For example: array( 'php' => 'The minimum PHP required version is 5.4.0.' );
+		 * An array of errors to display if any of the checks do not pass.
 		 *
 		 * @access private
 		 * @var array
@@ -59,8 +58,8 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		/**
 		 * Constructor.
 		 *
-		 * @param array $requirements Required things.
-		 * @param array $messages Error messages to display (optional).
+		 * @param array $requirements Associative array with required things.
+		 * @param array $messages Associative array with messages to display (optional, to override default ones).
 		 */
 		public function __construct( $requirements, $messages = array() ) {
 
