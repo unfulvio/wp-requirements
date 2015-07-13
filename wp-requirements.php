@@ -63,71 +63,77 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		 */
 		public function __construct( $requirements, $messages = array() ) {
 
-			$errors = array();
-			$requirements = array_merge( array( 'wp' => '', 'php' => '', 'ext' => '' ), (array) $requirements );
+			if ( $requirements && is_array( $requirements ) ) {
 
-			// Check for WordPress version.
-			if ( $requirements['wp'] && is_string( $requirements['wp'] ) ) {
+				$errors       = array();
+				$requirements = array_merge( array( 'wp' => '', 'php' => '', 'ext' => '' ), (array) $requirements );
 
-				global $wp_version;
-				// If $wp_version isn't found or valid probably you are not running WordPress (properly)?
-				$wp_ver = $wp_version && is_string( $wp_version ) ? $wp_version : $requirements['wp'];
-				$wp_ver = version_compare( $wp_ver, $requirements['wp'] );
+				// Check for WordPress version.
+				if ( $requirements['wp'] && is_string( $requirements['wp'] ) ) {
 
-				if ( $wp_ver === -1 ) {
-					if ( isset( $messages['wp'] ) ) {
-						$errors[] = $messages['wp'];
+					global $wp_version;
+					// If $wp_version isn't found or valid probably you are not running WordPress (properly)?
+					$wp_ver = $wp_version && is_string( $wp_version ) ? $wp_version : $requirements['wp'];
+					$wp_ver = version_compare( $wp_ver, $requirements['wp'] );
+
+					if ( $wp_ver === - 1 ) {
+						if ( isset( $messages['wp'] ) ) {
+							$errors[] = $messages['wp'];
+						} else {
+							$errors[] = sprintf( 'The minimum WordPress version required is %1$s, WordPress version found: %2$s', '`' . $requirements['wp'] . '`', '`' . $wp_version . '`' );
+						}
+						$this->wp = false;
 					} else {
-						$errors[] = sprintf( 'The minimum WordPress version required is %1$s, WordPress version found: %2$s', '`' . $requirements['wp'] . '`', '`' . $wp_version . '`' );
+						$this->wp = true;
 					}
-					$this->wp = false;
-				} else {
-					$this->wp = true;
+
 				}
 
-			}
+				// Check fo PHP version.
+				if ( $requirements['php'] && is_string( $requirements['php'] ) ) {
 
-			// Check fo PHP version.
-			if ( $requirements['php'] && is_string( $requirements['php'] ) ) {
+					$php_ver = version_compare( PHP_VERSION, $requirements['php'] );
 
-				$php_ver = version_compare( PHP_VERSION, $requirements['php'] );
-
-				if ( $php_ver === -1 ) {
-					if ( isset( $messages['wp'] ) ) {
-						$errors[] = $messages['wp'];
+					if ( $php_ver === - 1 ) {
+						if ( isset( $messages['wp'] ) ) {
+							$errors[] = $messages['wp'];
+						} else {
+							$errors[] = sprintf( 'The minimum PHP version required is %1$s, PHP version found: %2$s', '`' . $requirements['php'], '`' . PHP_VERSION . '``' );
+						}
+						$this->php = false;
 					} else {
-						$errors[] = sprintf( 'The minimum PHP version required is %1$s, PHP version found: %2$s', '`' . $requirements['php'], '`' . PHP_VERSION . '``' );
+						$this->php = true;
 					}
-					$this->php = false;
-				} else {
-					$this->php = true;
+
 				}
 
-			}
-
-			// Check fo PHP Extensions.
-			if ( $requirements['extensions'] && is_array( $requirements['extensions'] ) ) {
-				$extensions = array();
-				foreach( $requirements['extensions'] as $extension ) {
-					if ( $extension && is_string( $extension ) ) {
-						$extensions[ $extension ] = extension_loaded( $extension );
+				// Check fo PHP Extensions.
+				if ( $requirements['extensions'] && is_array( $requirements['extensions'] ) ) {
+					$extensions = array();
+					foreach ( $requirements['extensions'] as $extension ) {
+						if ( $extension && is_string( $extension ) ) {
+							$extensions[ $extension ] = extension_loaded( $extension );
+						}
 					}
-				}
-				if ( in_array( false, $extensions ) ) {
-					$this->ext = false;
-					foreach( $extensions as $extension ) {
-						if ( $extension === false ) {
-							if ( isset( $messages[ $extension ] ) ) {
-								$errors[] = $messages[ $extension ];
-							} else {
-								$errors[] = sprintf( 'The PHP extension %s is required and was not found', '`' . $extension . '`' );
+					if ( in_array( false, $extensions ) ) {
+						$this->ext = false;
+						foreach ( $extensions as $extension ) {
+							if ( $extension === false ) {
+								if ( isset( $messages[ $extension ] ) ) {
+									$errors[] = $messages[ $extension ];
+								} else {
+									$errors[] = sprintf( 'The PHP extension %s is required and was not found', '`' . $extension . '`' );
+								}
 							}
 						}
 					}
 				}
-			}
 
-			$this->errors = $errors;
+				$this->errors = $errors;
+
+			} else {
+				trigger_error( 'WP Requirements: the requirements passed as argument are invalid.', E_USER_ERROR );
+			}
 
 		}
 
