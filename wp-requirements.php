@@ -70,7 +70,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 					$wp_ver = $wp_version && is_string( $wp_version ) ? $wp_version : $requirements['wp'];
 					$wp_ver = version_compare( $wp_ver, $requirements['wp'] );
 
-					if ( $wp_ver === - 1 ) {
+					if ( $wp_ver === -1 ) {
 						if ( isset( $messages['wp'] ) ) {
 							$errors[] = $messages['wp'];
 						} else {
@@ -88,7 +88,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 
 					$php_ver = version_compare( PHP_VERSION, $requirements['php'] );
 
-					if ( $php_ver === - 1 ) {
+					if ( $php_ver === -1 ) {
 						if ( isset( $messages['wp'] ) ) {
 							$errors[] = $messages['wp'];
 						} else {
