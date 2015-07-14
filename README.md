@@ -34,5 +34,5 @@ Usage example:
 		}
 	
 	   // Stop the execution of the plugin.
-	   die();
+	   return;
 	}
