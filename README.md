@@ -50,7 +50,7 @@ But you probably want to provide information to your users or they might think y
 		if ( $errors ) {
 			foreach( $errors as $error ) {
 				// WordPress supports 5.2.4 so use `create_function` instead of anonymous function.
-				add_action( 'admin_notices', create_function( '', "echo '<div class=\"error\"><p>' . $error . '</p></div>';" ) );
+				add_action( 'admin_notices', create_function( "$error", "echo '<div class=\"error\"><p>' . $error . '</p></div>';" ) );
 			}
 		}
 	
