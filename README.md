@@ -6,7 +6,7 @@ Include me in your plugin and I will check if your PHP version or the installed 
  
 Usage example:
 	
-	// You can place this at the beginning of your plugin, after the plugin headers.
+	// Place the class file in your project and put this code at the beginning of your plugin, after the plugin headers.
 	require_once 'wp-requirements.php';
 	
 	// Set your requirements.
@@ -47,4 +47,4 @@ Usage example:
 This was inspired by a post appeared on [wordpress.org](https://wordpress.org) at
 [https://make.wordpress.org/plugins/2015/06/05/policy-on-php-versions/](https://make.wordpress.org/plugins/2015/06/05/policy-on-php-versions/)
 
-You can also try [WP Update PHP](https://github.com/WPupdatePHP/wp-update-php) which however only checks for PHP but provides insightful explanations for the users on why they should keep their PHP version up to date.  
+You can also try [WP Update PHP](https://github.com/WPupdatePHP/wp-update-php) which however only checks for PHP but provides insightful explanations for the users on why they should keep their PHP version up to date.	
