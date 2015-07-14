@@ -21,18 +21,30 @@ Usage example:
 	// If minimum requirements aren't met:
 	if ( $requirements->pass() === false ) {
 	
+		add_action( 'admin_notices', create_function( '',
+			"echo '<div class=\"error\"><p>Unfortunately the plugin X cannot be activated. The minimum requirements in your installation were not met.</p></div>';"
+		) );
+	
 		// Print errors as dashboard admin notices when trying to activate the plugin.
 		$errors = $requirements->errors();
 		if ( $errors ) {
-			add_action( 'admin_notices', create_function( '',
-				"echo '<div class=\"error\"><p>Unfortunately the plugin X cannot be activated. The minimum requirements in your installation were not met.</p></div>';"
-			) );
 			foreach( $errors as $error ) {
 				// WordPress supports 5.2.4 so use `create_function` instead of anonymous function.
 				add_action( 'admin_notices', create_function( '', "echo '<div class=\"error\"><p>' . $error . '</p></div>';" ) );
 			}
 		}
 	
-	   // Stop the execution of the plugin.
-	   return;
+		// This could be useful only if your plugin isn't new and previously didn't have requirements.  
+		add_action( 'admin_init', 'my_plugin_deactivate_self' );
+		function my_plugin_deactivate_self() {
+			deactivate_plugins( plugin_basename( __FILE__ ) );
+		}
+		
+		// Stop the execution of the plugin.
+	   	return;
 	}
+
+This was inspired by a post appeared on [wordpress.org](https://wordpress.org) at
+[https://make.wordpress.org/plugins/2015/06/05/policy-on-php-versions/](https://make.wordpress.org/plugins/2015/06/05/policy-on-php-versions/)
+
+You can also try [WP Update PHP](https://github.com/WPupdatePHP/wp-update-php) which however only checks for PHP but provides insightful explanations for the users on why they should keep their PHP version up to date.  
