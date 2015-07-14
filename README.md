@@ -4,7 +4,25 @@ Hi! I'm a little utility class that you can use in your WordPress plugin develop
 
 Include me in your plugin and I will check if your PHP version or the installed WordPress version is the right one. If not, I will let you know and you can halt your script and display a message in WordPress dashboard so the admin will know why the plugin can't be activated.
  
-Usage example:
+Bare minimum usage example:
+ 
+	// Place the class file in your project and put this code at the beginning of your plugin, after the plugin headers.
+	require_once 'wp-requirements.php';
+		
+	// Set your requirements.
+	$my_requirements = array(
+		'php' => '5.4.0',
+		'wp'  => '4.0.0'
+	);
+	 
+	// Checks if the minimum WP version is 4.0.0 and minimum PHP version is 5.4.0.
+	$requirements = new WP_requirements( $my_requirements );
+	if ( $requirements->pass() === false ) {
+		// Abort loading the rest of the plugin.
+		return;
+	}
+
+However, you probably want to provide some information to your users or they will think your plugin is broken: 
 	
 	// Place the class file in your project and put this code at the beginning of your plugin, after the plugin headers.
 	require_once 'wp-requirements.php';
