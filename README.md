@@ -22,7 +22,7 @@ Bare minimum usage example:
 		return;
 	}
 
-However, you probably want to provide some information to your users or they will think your plugin is broken: 
+But you probably want to provide information to your users or they might think your plugin is broken: 
 	
 	// Place the class file in your project and put this code at the beginning of your plugin, after the plugin headers.
 	require_once 'wp-requirements.php';
