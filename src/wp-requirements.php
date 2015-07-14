@@ -37,7 +37,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		 * @access private
 		 * @var bool
 		 */
-		private $ext = true;
+		private $extensions = true;
 
 		/**
 		 * Errors.
@@ -115,7 +115,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 								}
 							}
 						}
-						$this->ext = false;
+						$this->extensions = false;
 					}
 				}
 
