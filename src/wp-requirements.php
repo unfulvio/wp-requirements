@@ -60,7 +60,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 			if ( $requirements && is_array( $requirements ) ) {
 
 				$errors       = array();
-				$requirements = array_merge( array( 'wp' => '', 'php' => '', 'ext' => '' ), (array) $requirements );
+				$requirements = array_merge( array( 'wp' => '', 'php' => '', 'extensions' => '' ), (array) $requirements );
 
 				// Check for WordPress version.
 				if ( $requirements['wp'] && is_string( $requirements['wp'] ) ) {
