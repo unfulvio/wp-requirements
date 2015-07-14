@@ -18,7 +18,7 @@ Bare minimum usage example:
 	);
 	 
 	// Checks if the minimum WP version is 4.0.0 and minimum PHP version is 5.4.0.
-	$requirements = new WP_requirements( $my_requirements );
+	$requirements = new WP_Requirements( $my_requirements );
 	if ( $requirements->pass() === false ) {
 		// Abort loading the rest of the plugin.
 		return;
