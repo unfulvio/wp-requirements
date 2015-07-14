@@ -111,7 +111,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 								if ( isset( $messages[ $extension_name ] ) ) {
 									$errors[ $extension_name ] = $messages[ $extension_name ];
 								} else {
-									$errors[ $extension_name ] = sprintf( 'The PHP extension %s is required and was not found', '`' . $extension . '`' );
+									$errors[ $extension_name ] = sprintf( 'The PHP extension %s is required and was not found', '`' . $extension_name . '`' );
 								}
 							}
 						}
