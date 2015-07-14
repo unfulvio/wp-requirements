@@ -72,9 +72,9 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 
 					if ( $wp_ver === -1 ) {
 						if ( isset( $messages['wp'] ) ) {
-							$errors[] = $messages['wp'];
+							$errors['php'] = $messages['wp'];
 						} else {
-							$errors[] = sprintf( 'The minimum WordPress version required is %1$s, WordPress version found: %2$s', '`' . $requirements['wp'] . '`', '`' . $wp_version . '`' );
+							$errors['php'] = sprintf( 'The minimum WordPress version required is %1$s, WordPress version found: %2$s', '`' . $requirements['wp'] . '`', '`' . $wp_version . '`' );
 						}
 						$this->wp = false;
 					}
@@ -88,9 +88,9 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 
 					if ( $php_ver === -1 ) {
 						if ( isset( $messages['wp'] ) ) {
-							$errors[] = $messages['wp'];
+							$errors['wp'] = $messages['wp'];
 						} else {
-							$errors[] = sprintf( 'The minimum PHP version required is %1$s, PHP version found: %2$s', '`' . $requirements['php'], '`' . PHP_VERSION . '``' );
+							$errors['wp'] = sprintf( 'The minimum PHP version required is %1$s, PHP version found: %2$s', '`' . $requirements['php'], '`' . PHP_VERSION . '``' );
 						}
 						$this->php = false;
 					}
@@ -106,12 +106,12 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 						}
 					}
 					if ( in_array( false, $extensions ) ) {
-						foreach ( $extensions as $extension ) {
-							if ( $extension === false ) {
-								if ( isset( $messages[ $extension ] ) ) {
-									$errors[] = $messages[ $extension ];
+						foreach ( $extensions as $extension_name => $found  ) {
+							if ( $found === false ) {
+								if ( isset( $messages[ $extension_name ] ) ) {
+									$errors[ $extension_name ] = $messages[ $extension_name ];
 								} else {
-									$errors[] = sprintf( 'The PHP extension %s is required and was not found', '`' . $extension . '`' );
+									$errors[ $extension_name ] = sprintf( 'The PHP extension %s is required and was not found', '`' . $extension . '`' );
 								}
 							}
 						}
@@ -142,7 +142,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		 * @return bool
 		 */
 		public function pass() {
-			if ( in_array( false, array( $this->wp, $this->php, $this->ext ) ) ) {
+			if ( in_array( false, array( $this->wp, $this->php, $this->extensions ) ) ) {
 				return false;
 			}
 			return true;
