@@ -70,7 +70,7 @@ But you probably want to provide information to your users or they might think y
 	} else {
       	
     	// Load the rest of the plugin that may contain non legacy compatible PHP code.
-    	require_once 'the_plugin.php'
+    	require_once 'the_plugin.php';
       	
     }
 
