@@ -12,16 +12,23 @@ Bare minimum usage example:
 	require_once 'wp-requirements.php';
 		
 	// Set your requirements.
-	$my_requirements = array(
+	$plugin_name_requirements = array(
 		'php' => '5.4.0',
-		'wp'  => '4.0.0'
+		'wp'  => '3.9.0'
 	);
 	 
-	// Checks if the minimum WP version is 4.0.0 and minimum PHP version is 5.4.0.
-	$requirements = new WP_Requirements( $my_requirements );
+	// Checks if the minimum WP version is 3.9.0 and minimum PHP version is 5.4.0.
+	$requirements = new WP_Requirements( $plugin_name_requirements );
 	if ( $requirements->pass() === false ) {
-		// Abort loading the rest of the plugin.
+		
+		// Halt loading the rest of the plugin.
 		return;
+		
+	} else {
+	
+		// Load the rest of the plugin that may contain non legacy compatible PHP code.
+		require_once 'the_plugin.php';
+	
 	}
 
 But you probably want to provide information to your users or they might think your plugin is broken: 
@@ -30,39 +37,42 @@ But you probably want to provide information to your users or they might think y
 	require_once 'wp-requirements.php';
 	
 	// Set your requirements.
-	$my_requirements = array(
+	$plugin_name_requirements = array(
 		'php' => '5.4.0',
-		'wp'  => '4.0.0'
+		'wp'  => '3.9.0'
 	);
 	
-	// Checks if the minimum WP version is 4.0.0 and minimum PHP version is 5.4.0.
-	$requirements = new WP_requirements( $my_requirements );
+	// Checks if the minimum WP version is 3.9.0 and minimum PHP version is 5.4.0.
+	$requirements = new WP_requirements( $plugin_name_requirements );
 	
 	// If minimum requirements aren't met:
 	if ( $requirements->pass() === false ) {
 	
-		add_action( 'admin_notices', create_function( '',
-			"echo '<div class=\"error\"><p>Unfortunately the plugin X cannot be activated. The minimum requirements in your installation were not met.</p></div>';"
-		) );
-	
-		// Print errors as dashboard admin notices when trying to activate the plugin.
-		$errors = $requirements->errors();
-		if ( $errors ) {
-			foreach( $errors as $error ) {
-				// WordPress supports 5.2.4 so use `create_function` instead of anonymous function.
-				add_action( 'admin_notices', create_function( '', "echo '<div class=\"error\"><p>' . $error . '</p></div>';" ) );
+		function plugin_name_requirements() {
+			global $wp_version;
+			echo '<div class="error"><p>' . sprintf( __( 'Plugin Name requires PHP 5.4 and WordPress 3.9.0 to function properly. PHP version found: %1$s. WordPress installed version: %2$s. Please upgrade. The Plugin has been auto-deactivated.', 'plugin-name' ), PHP_VERSION, $wp_version ) . '</p></div>';
+			// Removes the activation notice if set.
+			if ( isset( $_GET['activate'] ) ) {
+				unset( $_GET['activate'] );
 			}
-		}
-	
-		// This could be useful only if your plugin isn't new and previously didn't have requirements.  
-		add_action( 'admin_init', 'my_plugin_deactivate_self' );
-		function my_plugin_deactivate_self() {
+		} 
+		add_action( 'admin_notices', 'plugin_name_requirements' );
+		
+		// This could be useful only if your plugin isn't new and previously didn't have requirements.
+		function plugin_name_deactivate_self() {
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 		}
+		add_action( 'admin_init', 'plugin_name_deactivate_self' );
 		
-		// Stop the execution of the plugin.
+		// Halt loading the rest of the plugin.
 	   	return;
-	}
+	   	
+	} else {
+      	
+    	// Load the rest of the plugin that may contain non legacy compatible PHP code.
+    	require_once 'the_plugin.php'
+      	
+    }
 
 #### Resources
 

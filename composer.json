@@ -5,6 +5,15 @@
     "issues": "https://github.com/nekojira/wp-requirements/issues",
     "source": "https://github.com/nekojira/wp-requirements"
   },
+  "authors": [
+    {
+      "name": "Fulvio Notarstefano",
+      "email": "fulvio.notarstefano@gmail.com",
+      "homepage": "https://github.com/nekojira",
+      "role": "Developer"
+    }
+  ],
+  "keywords" : [ "wordpress" ],
   "autoload": {
     "psr-0": {
       "": "src"
