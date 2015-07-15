@@ -74,7 +74,7 @@ But you probably want to provide information to your users or they might think y
       	
     }
 
-#### Resources
+### Resources
 
 WP Requirements was inspired by a post appeared on [wordpress.org](https://wordpress.org) at
 [https://make.wordpress.org/plugins/2015/06/05/policy-on-php-versions/](https://make.wordpress.org/plugins/2015/06/05/policy-on-php-versions/)
