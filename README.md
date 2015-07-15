@@ -47,7 +47,7 @@ But you probably want to provide information to your users or they might think y
 	
 	// If minimum requirements aren't met:
 	if ( $requirements->pass() === false ) {
-	
+
 		function plugin_name_requirements() {
 			global $wp_version;
 			echo '<div class="error"><p>' . sprintf( __( 'Plugin Name requires PHP 5.4 and WordPress 3.9.0 to function properly. PHP version found: %1$s. WordPress installed version: %2$s. Please upgrade. The Plugin has been auto-deactivated.', 'plugin-name' ), PHP_VERSION, $wp_version ) . '</p></div>';
