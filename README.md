@@ -3,6 +3,9 @@
 Hi! I'm a little utility class that you can use in your WordPress plugin development.
 
 Include me in your plugin and I will check if your PHP version or the installed WordPress version is the right one. If not, I will let you know and you can halt your script and display a message in WordPress dashboard so the admin will know why the plugin can't be activated.
+
+>#### Important Note 
+Use this as a template to implement your own requirements check. Althought the class as presented in this repository is wrapped in a `class_exist` conditional, there could be other plugin developers implementing the same class - to avoid naming collisions or duplicate classes, rename the class with a most unique prefix of your own.
  
 ### Usage
  
