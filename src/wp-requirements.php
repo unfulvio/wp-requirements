@@ -59,16 +59,16 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 			if ( $requirements && is_array( $requirements ) ) {
 
 				$errors       = array();
-				$requirements = array_merge( array( 'wp' => '', 'php' => '', 'extensions' => '' ), (array) $requirements );
+				$requirements = array_merge( 
+					array( 'wp' => '', 'php' => '', 'extensions' => '' ), 
+					$requirements 
+				);
 
 				// Check for WordPress version.
 				if ( $requirements['wp'] && is_string( $requirements['wp'] ) ) {
-					global $wp_version;
-					// If $wp_version isn't found or valid probably you are not running WordPress (properly)?
-					$wp_ver = $wp_version && is_string( $wp_version ) ? $wp_version : $requirements['wp'];
-					$wp_ver = version_compare( $wp_ver, $requirements['wp'] );
+					$wp_ver = version_compare( get_bloginfo( 'version' ), $requirements['wp'] );
 					if ( $wp_ver === -1 ) {
-						$errors['wp'] = $wp_version;
+						$errors['wp'] = $wp_ver;
 						$this->wp = false;
 					}
 				}
