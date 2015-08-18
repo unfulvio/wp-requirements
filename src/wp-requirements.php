@@ -66,17 +66,16 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 
 				// Check for WordPress version.
 				if ( $requirements['wp'] && is_string( $requirements['wp'] ) ) {
-					$wp_ver = version_compare( get_bloginfo( 'version' ), $requirements['wp'] );
-					if ( $wp_ver === -1 ) {
-						$errors['wp'] = $wp_ver;
+					$wp_version = get_bloginfo( 'version' );
+					if ( version_compare( $wp_version, $requirements['wp'] ) === -1 ) {
+						$errors['wp'] = $wp_version;
 						$this->wp = false;
 					}
 				}
 
 				// Check fo PHP version.
 				if ( $requirements['php'] && is_string( $requirements['php'] ) ) {
-					$php_ver = version_compare( PHP_VERSION, $requirements['php'] );
-					if ( $php_ver === -1 ) {
+					if ( version_compare( PHP_VERSION, $requirements['php'] ) === -1 ) {
 						$errors['php'] = PHP_VERSION;
 						$this->php = false;
 					}
