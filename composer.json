@@ -1,6 +1,8 @@
 {
   "name": "nekojira/wp-requirements",
   "description": "Utility for WordPress plugin developers to check PHP version, WordPress version and presence of PHP extensions in current installation.",
+  "version": "1.1.2",
+  "license": "GPL-2.0+",
   "support": {
     "issues": "https://github.com/nekojira/wp-requirements/issues",
     "source": "https://github.com/nekojira/wp-requirements"
@@ -18,6 +20,5 @@
     "psr-0": {
       "": "src"
     }
-  },
-  "license": "GPL-2.0+"
+  }
 }
