@@ -15,7 +15,12 @@
       "role": "Developer"
     }
   ],
-  "keywords" : [ "wordpress" ],
+  "keywords" : [ 
+    "php",
+    "requirements",
+    "wordpress",
+    "version"
+  ],
   "autoload": {
     "psr-0": {
       "": "src"
