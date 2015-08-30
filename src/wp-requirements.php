@@ -78,7 +78,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		/**
 		 * Admin notice.
 		 *
-		 * @access private;
+		 * @access private
 		 * @var string
 		 */
 		private $notice = '';
