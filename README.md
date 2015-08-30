@@ -43,7 +43,7 @@ Include this library with:
         
 However, if you choose to do so, remind that Composer can only work with PHP 5.3.0 onwards. If your goal is to require a PHP version check against older versions of PHP, but want to use Composer, you need a workaround.
  
-You could specify an additional 5.2 autoloader specific to PHP, for example using [PHP 5.2 Autoloading for Composer](https://bitbucket.org/xrstf/composer-php52) by including in your `package.json file` the following:
+You could specify an additional 5.2 autoloader specific to PHP, for example using [PHP 5.2 Autoloading for Composer](https://bitbucket.org/xrstf/composer-php52) by including in your `package.json` file the following:
  
 	{
 	 "require": {
