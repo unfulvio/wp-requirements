@@ -18,7 +18,9 @@ Pass the requirements to a new instance of this class like so:
             'another_extension',
         )
     );
-    
+ 
+Replace 'x.y.z' with the semantic version number you want to require. For PHP extension, just pass the extension name as array string values.
+
 You need to specify at least one value in the arguments array. **Mind the casing in the array keys**.
 
 Then, you can use the following method to know if it passed (will return *bool*):
@@ -43,9 +45,8 @@ Include this library with:
         
 However, if you choose to do so, remind that Composer can only work with PHP 5.3.0 onwards. If your goal is to require a PHP version check against older versions of PHP, but want to use Composer, you need a workaround.
  
-You could specify an additional 5.2 autoloader specific to PHP, for example using [PHP 5.2 Autoloading for Composer](https://bitbucket.org/xrstf/composer-php52) by including in your `package.json` file the following:
+You could specify an additional autoloader specific to PHP 5.2, for example using the [PHP 5.2 Autoloading for Composer](https://bitbucket.org/xrstf/composer-php52), by including in your `package.json` file the following:
  
-	{
 	 "require": {
 		 "xrstf/composer-php52": "1.*"
 	 },
@@ -60,49 +61,29 @@ You could specify an additional 5.2 autoloader specific to PHP, for example usin
 			 "xrstf\\Composer52\\Generator::onPostInstallCmd"
 		 ]
 	 }
-	}
  
-#### Usage example
+### Usage example
 
 Either require with `include_once` or with Composer first, then at the beginning of your plugin, after the plugin headers, place some code like this:
 	
-	$my_plugin_requirements = new WP_Requirements( array(
-		'PHP'       => '5.3.2',
-		'WordPress' => '3.9.0',
-	) );
+	$my_plugin_requirements = new WP_Requirements( 
+		plugin_basename( __FILE__ ),
+		array(
+			'PHP'       => '5.3.2',
+			'WordPress' => '3.9.0',
+		) 
+	);
 	
 	if ( $my_plugin_requirements->pass() === false ) {
-	
-	    // Get a notice message.
-		if ( ! defined( 'MY_PLUGIN_NOTICE' ) ) {
-			$my_plugin_notice = $my_plugin_requirements->get_notice( 'My Plugin Name' );
-			define( 'MY_PLUGIN_NOTICE', $my_plugin_notice );
-		}
-		
-		// Prints a notice.
-		function my_plugin_requirements_notice() {
-			if ( defined( 'MY_PLUGIN_NOTICE' ) ) {
-				echo MY_PLUGIN_NOTICE;
-			}
-		}
-		add_action( 'admin_notices', 'my_plugin_requirements_notice' );
-	
-	    // Do not activate this plugin.
-		function my_plugin_deactivate_self() {
-			deactivate_plugins( plugin_basename( __FILE__ ) );
-		}
-		add_action( 'admin_init', 'my_plugin_deactivate_self' );
-	
-	    // Remove an activation notice.
-		if ( isset( $_GET['activate'] ) ) {
-			unset( $_GET['activate'] );
-		}
-	
-	    // Halt the execution of the plugin.
+		// Deactivate the plugin and print an admin notice.
+		$my_plugin_requirements->halt( 'My Plugin Name' );
+		// Halt the execution of the rest of the plugin.
 		return;
 	}
 	
-	// then from here on, continue with your code.
+	// Then from here on, continue with your code.
+	// Perhaps with `include_once 'includes/main_class.php'`
+	// which may contain potentially incompatible PHP code.
 
 ### Resources
 
