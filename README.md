@@ -1,5 +1,7 @@
 #WP Requirements
 
+[![GitHub version](https://badge.fury.io/gh/nekojira%2Fwp-requirements.svg)](http://badge.fury.io/gh/nekojira%2Fwp-requirements)
+
 Hi! I'm a little utility class that you can use in your WordPress plugin development.
 
 Include me in your plugin and I will check if your PHP version or the installed WordPress version is the right one. If not, I will let you know and you can halt your script and display a message in WordPress dashboard so the admin will know why the plugin can't be activated.
