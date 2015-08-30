@@ -5,7 +5,7 @@
  * Utility to check current PHP version, WordPress version and PHP extensions.
  *
  * @package WP_Requirements
- * @version 1.0.0
+ * @version 1.2.0
  * @author  Fulvio Notarstefano <fulvio.notarstefano@gmail.com>
  * @link    https://github.com/nekojira/wp-requirements
  * @license GPL2+
