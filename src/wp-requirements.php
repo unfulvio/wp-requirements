@@ -40,6 +40,14 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		private $extensions = true;
 
 		/**
+		 * Requirements to check.
+		 * 
+		 * @access private
+		 * @var array
+		 */
+		private $requirements = array();
+		
+		/**
 		 * Results failures.
 		 *
 		 * Associative array with requirements results.
@@ -56,35 +64,42 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		 */
 		public function __construct( $requirements ) {
 
+			$this->requirements = $requirements;
+			
 			if ( $requirements && is_array( $requirements ) ) {
-
-				$errors       = array();
+				
+				$failures = $extensions = array();
+				
 				$requirements = array_merge( 
-					array( 'wp' => '', 'php' => '', 'extensions' => '' ), 
-					$requirements 
+					array(
+						'WordPress'  => '',
+						'PHP'        => '',
+						'Extensions' => '',
+					), $requirements
 				);
 
 				// Check for WordPress version.
-				if ( $requirements['wp'] && is_string( $requirements['wp'] ) ) {
-					$wp_version = get_bloginfo( 'version' );
-					if ( version_compare( $wp_version, $requirements['wp'] ) === -1 ) {
-						$errors['wp'] = $wp_version;
-						$this->wp = false;
+				if ( $requirements['WordPress'] && is_string( $requirements['WordPress'] ) ) {
+					if ( function_exists( 'get_bloginfo' ) ) {
+						$wp_version = get_bloginfo( 'version' );
+						if ( version_compare( $wp_version, $requirements['WordPress'] ) === - 1 ) {
+							$failures['WordPress'] = $wp_version;
+							$this->wp = false;
+						}
 					}
 				}
 
 				// Check fo PHP version.
-				if ( $requirements['php'] && is_string( $requirements['php'] ) ) {
-					if ( version_compare( PHP_VERSION, $requirements['php'] ) === -1 ) {
-						$errors['php'] = PHP_VERSION;
+				if ( $requirements['PHP'] && is_string( $requirements['PHP'] ) ) {
+					if ( version_compare( PHP_VERSION, $requirements['PHP'] ) === -1 ) {
+						$failures['PHP'] = PHP_VERSION;
 						$this->php = false;
 					}
 				}
 
 				// Check fo PHP Extensions.
-				if ( $requirements['extensions'] && is_array( $requirements['extensions'] ) ) {
-					$extensions = array();
-					foreach ( $requirements['extensions'] as $extension ) {
+				if ( $requirements['Extensions'] && is_array( $requirements['Extensions'] ) ) {
+					foreach ( $requirements['Extensions'] as $extension ) {
 						if ( $extension && is_string( $extension ) ) {
 							$extensions[ $extension ] = extension_loaded( $extension );
 						}
@@ -92,17 +107,19 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 					if ( in_array( false, $extensions ) ) {
 						foreach ( $extensions as $extension_name => $found  ) {
 							if ( $found === false ) {
-								$errors['extensions'][ $extension_name ] = $extension_name;
+								$failures['Extensions'][ $extension_name ] = $extension_name;
 							}
 						}
 						$this->extensions = false;
 					}
 				}
 
-				$this->failures = $errors;
+				$this->failures = $failures;
 
 			} else {
+
 				trigger_error( 'WP Requirements: the requirements are invalid.', E_USER_ERROR );
+
 			}
 
 		}
@@ -122,10 +139,60 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		 * @return bool
 		 */
 		public function pass() {
-			if ( in_array( false, array( $this->wp, $this->php, $this->extensions ) ) ) {
+			if ( in_array( false, array(
+				$this->wp,
+				$this->php,
+				$this->extensions,
+			) ) ) {
 				return false;
 			}
 			return true;
+		}
+
+		/**
+		 * Notice message.
+		 *
+		 * @param  string $name Name of the plugin or theme.
+		 *
+		 * @return string
+		 */
+		public function get_notice( $name ) {
+
+			$notice   = '';
+			$name     = htmlspecialchars( strip_tags( $name ) );
+			$failures = $this->failures;
+			
+			if ( $failures && is_array( $failures ) ) {
+
+				$notice  = '<div class="notice notice-error">' . "\n";
+				$notice .= "\t" . '<p><strong>' . sprintf( '%s could not be activated.', $name ) . '</strong><br>'; 
+				
+				foreach ( $failures as $requirement => $found ) {
+
+					$required = $this->requirements[ $requirement ];
+
+					if ( 'extensions' != $requirement ) {
+						$notice .= sprintf(
+							'Required %1$s version: %2$s - Version found: %3$s',
+							$requirement,
+							$required,
+							$found
+			            ) . '<br>';
+					} elseif ( is_array( $requirement ) ) {
+						$notice .= sprintf(
+							'Required PHP Extension(s) not found: %s.',
+							join( ', ', $requirement )
+						) . '<br>';
+					}
+						
+				}
+
+				$notice .= sprintf( 'Please update to meet %s requirements.', $name );
+				$notice .= "\t" . '</p>' . "\n";
+				$notice .= '</div>';
+			}
+
+			return $notice;
 		}
 
 	}

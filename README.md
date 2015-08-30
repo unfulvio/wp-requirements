@@ -4,80 +4,91 @@
 
 Hi! I'm a little utility class that you can use in your WordPress plugin development.
 
-Include me in your plugin and I will check if your PHP version or the installed WordPress version is the right one. If not, I will let you know and you can halt your script and display a message in WordPress dashboard so the admin will know why the plugin can't be activated.
+Include me in your plugin and I will check if the PHP version or the installed WordPress version is the right one. If not, I will let you know and you can halt your script and display a message in WordPress dashboard so the admin will know why your plugin can't be activated.
+
+
 
 >#### Important Note 
 Use this as a template to implement your own requirements check. Althought the class as presented in this repository is wrapped in a `class_exist` conditional, there could be other plugin developers implementing the same class - to avoid naming collisions or duplicate classes, rename the class with a most unique prefix of your own.
  
 ### Usage
+
+There are two ways you can include WP Requirements in your project.
+
+##### Copy this class
+
+You can copy the class found in `/src/wp-requirements.php` in this project.
+
+If you choose to do so, please rename this class with the prefix used by your project (for example: from `WP_Requirements` to `My_Plyugin_Requirements` ). In this way there is less risk of a naming collision between projects.
  
-Bare minimum usage example:
+##### Use Composer
+
+Include this library with:
+
+    $ composer require nekojira/wp-requirements
+        
+However, if you choose to do so, remind that Composer can only work with PHP 5.3.0 onwards. If your goal is to require a PHP version check against older versions of PHP, but want to use Composer, you need a workaround.
  
-	// Place the class file in your project and put this code at the beginning of your plugin, after the plugin headers.
-	require_once 'wp-requirements.php';
-		
-	// Set your requirements.
-	$plugin_name_requirements = array(
-		'php' => '5.4.0',
-		'wp'  => '3.9.0'
-	);
-	 
-	// Checks if the minimum WP version is 3.9.0 and minimum PHP version is 5.4.0.
-	$requirements = new WP_Requirements( $plugin_name_requirements );
-	if ( $requirements->pass() === false ) {
-		
-		// Halt loading the rest of the plugin.
-		return;
-		
-	} else {
-	
-		// Load the rest of the plugin that may contain non legacy compatible PHP code.
-		require_once 'the_plugin.php';
-	
+You could specify an additional 5.2 autoloader specific to PHP, for example using [PHP 5.2 Autoloading for Composer](https://bitbucket.org/xrstf/composer-php52) by including in your `package.json file` the following:
+ 
+	{
+	 "require": {
+		 "xrstf/composer-php52": "1.*"
+	 },
+	 "scripts": {
+		 "post-install-cmd": [
+			 "xrstf\\Composer52\\Generator::onPostInstallCmd"
+		 ],
+		 "post-update-cmd": [
+			 "xrstf\\Composer52\\Generator::onPostInstallCmd"
+		 ],
+		 "post-autoload-dump": [
+			 "xrstf\\Composer52\\Generator::onPostInstallCmd"
+		 ]
+	 }
 	}
+ 
+#### Usage example
 
-But you probably want to provide information to your users or they might think your plugin is broken: 
+Either require with `include_once` or with Composer first, then at the beginning of your plugin, after the plugin headers, place some code like this:
 	
-	// Place the class file in your project and put this code at the beginning of your plugin, after the plugin headers.
-	require_once 'wp-requirements.php';
+	$my_plugin_requirements = new WP_Requirements( array(
+		'PHP'       => '5.3.2',
+		'WordPress' => '3.9.0',
+	) );
 	
-	// Set your requirements.
-	$plugin_name_requirements = array(
-		'php' => '5.4.0',
-		'wp'  => '3.9.0'
-	);
+	if ( $my_plugin_requirements->pass() === false ) {
 	
-	// Checks if the minimum WP version is 3.9.0 and minimum PHP version is 5.4.0.
-	$requirements = new WP_requirements( $plugin_name_requirements );
-	
-	// If minimum requirements aren't met:
-	if ( $requirements->pass() === false ) {
-
-		function plugin_name_requirements() {
-			$wp_version = get_bloginfo( 'version' );
-			echo '<div class="error"><p>' . sprintf( __( 'Plugin Name requires PHP 5.4 and WordPress 3.9.0 to function properly. PHP version found: %1$s. WordPress installed version: %2$s. Please upgrade. The Plugin has been auto-deactivated.', 'plugin-name' ), PHP_VERSION, $wp_version ) . '</p></div>';
-			// Removes the activation notice if set.
-			if ( isset( $_GET['activate'] ) ) {
-				unset( $_GET['activate'] );
-			}
-		} 
-		add_action( 'admin_notices', 'plugin_name_requirements' );
+	    // Get a notice message.
+		if ( ! defined( 'MY_PLUGIN_NOTICE' ) ) {
+			$my_plugin_notice = $my_plugin_requirements->get_notice( 'My Plugin Name' );
+			define( 'MY_PLUGIN_NOTICE', $my_plugin_notice );
+		}
 		
-		// This could be useful only if your plugin isn't new and previously didn't have requirements.
-		function plugin_name_deactivate_self() {
+		// Prints a notice.
+		function my_plugin_requirements_notice() {
+			if ( defined( 'MY_PLUGIN_NOTICE' ) ) {
+				echo MY_PLUGIN_NOTICE;
+			}
+		}
+		add_action( 'admin_notices', 'my_plugin_requirements_notice' );
+	
+	    // Do not activate this plugin.
+		function my_plugin_deactivate_self() {
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 		}
-		add_action( 'admin_init', 'plugin_name_deactivate_self' );
-		
-		// Halt loading the rest of the plugin.
-	   	return;
-	   	
-	} else {
-      	
-    	// Load the rest of the plugin that may contain non legacy compatible PHP code.
-    	require_once 'the_plugin.php';
-      	
-    }
+		add_action( 'admin_init', 'my_plugin_deactivate_self' );
+	
+	    // Remove an activation notice.
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
+	
+	    // Halt the execution of the plugin.
+		return;
+	}
+	
+	// then from here on, continue with your code.
 
 ### Resources
 
