@@ -8,13 +8,32 @@ Include me in your plugin and I will check if the PHP version or the installed W
 
 ### Usage
 
+Pass the requirements to a new instance of this class like so:
+
+    $my_requirements_check = new WP_Requirements( array(
+        'PHP' => 'x.y.z',
+        'WordPress => 'x.y.z.',
+        'Extensions' => array(
+            'extension_name',
+            'another_extension',
+        )
+    );
+    
+You need to specify at least one value in the arguments array. **Mind the casing in the array keys**.
+
+Then, you can use the following method to know if it passed (will return *bool*):
+
+    $my_requirements_check->pass();
+
+### Implementation
+
 There are two ways you can include WP Requirements in your project.
 
 ##### Copy this class
 
 You can copy the class found in `/src/wp-requirements.php` in this project.
 
-If you choose to do so, please rename this class with the prefix used by your project (for example: from `WP_Requirements` to `My_Plyugin_Requirements` ). In this way there is less risk of a naming collision between projects.
+> **Important!** If you choose to do so, please rename this class with the prefix used by your project (for example: from `WP_Requirements` to `My_Plyugin_Requirements` ). In this way there is less risk of a naming collision between projects.
  
 ##### Use Composer
 
