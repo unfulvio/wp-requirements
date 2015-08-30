@@ -33,7 +33,7 @@ There are two ways you can include WP Requirements in your project.
 
 You can copy the class found in `/src/wp-requirements.php` in this project.
 
-> **Important!** If you choose to do so, please rename this class with the prefix used by your project (for example: from `WP_Requirements` to `My_Plyugin_Requirements` ). In this way there is less risk of a naming collision between projects.
+> **Important!** If you choose to do so, please rename this class with the prefix used by your project (for example: from `WP_Requirements` to `My_Plugin_Requirements` ). In this way there is less risk of a naming collision between projects.
  
 ##### Use Composer
 
