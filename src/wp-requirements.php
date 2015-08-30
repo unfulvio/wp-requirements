@@ -5,7 +5,7 @@
  * Utility to check current PHP version, WordPress version and PHP extensions.
  *
  * @package WP_Requirements
- * @version 1.3.0
+ * @version 1.4.0
  * @author  Fulvio Notarstefano <fulvio.notarstefano@gmail.com>
  * @link    https://github.com/nekojira/wp-requirements
  * @license GPL2+
@@ -16,7 +16,15 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 	class WP_Requirements {
 
 		/**
-		 * Plugin.
+		 * Plugin name.
+		 *
+		 * @access private
+		 * @var string
+		 */
+		private $name = '';
+
+		/**
+		 * Plugin main file.
 		 *
 		 * plugin_basename( __FILE__ )
 		 *
@@ -68,13 +76,23 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		private $failures = array();
 
 		/**
-		 * Constructor.
+		 * Admin notice.
 		 *
+		 * @access private;
+		 * @var string
+		 */
+		private $notice = '';
+
+		/**
+		 * Run checks.
+		 *
+		 * @param string $name         The plugin name.
 		 * @param string $plugin       Output of `plugin_basename( __FILE__ )`.
 		 * @param array  $requirements Associative array with requirements.
 		 */
-		public function __construct( $plugin, $requirements ) {
+		public function __construct( $name, $plugin, $requirements ) {
 
+			$this->name = htmlspecialchars( strip_tags( $name ) );
 			$this->plugin = $plugin;
 			$this->requirements = $requirements;
 
@@ -163,14 +181,12 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		/**
 		 * Notice message.
 		 *
-		 * @param  string $name Name of the plugin or theme.
-		 *
 		 * @return string
 		 */
-		public function get_notice( $name ) {
+		public function get_notice() {
 
 			$notice   = '';
-			$name     = htmlspecialchars( strip_tags( $name ) );
+			$name     = $this->name;
 			$failures = $this->failures;
 
 			if ( $failures && is_array( $failures ) ) {
@@ -213,9 +229,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		 * Print notice.
 		 */
 		public function print_notice() {
-			if ( defined( 'WP_REQUIREMENTS_NOTICE' ) ) {
-				echo WP_REQUIREMENTS_NOTICE;
-			}
+			echo $this->notice;
 		}
 
 		/**
@@ -229,19 +243,12 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 
 		/**
 		 * Deactivate plugin and display admin notice.
-		 *
-		 * @param string $plugin_name
 		 */
-		function halt( $plugin_name ) {
+		function halt() {
 
-			$notice = $this->get_notice( $plugin_name );
+			$this->notice = $this->get_notice();
 
-			if ( $notice && function_exists( 'add_action' ) ) {
-
-				// Get a notice message.
-				if ( ! defined( 'WP_REQUIREMENTS_NOTICE' ) ) {
-					define( 'WP_REQUIREMENTS_NOTICE', $notice );
-				}
+			if ( $this->notice && function_exists( 'add_action' ) ) {
 
 				add_action( 'admin_notices', array( $this, 'print_notice' ) );
 				add_action( 'admin_init', array( $this, 'deactivate_plugin' ) );

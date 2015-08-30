@@ -10,13 +10,17 @@ Include me in your plugin and I will check if the PHP version or the installed W
 
 Pass the requirements to a new instance of this class like so:
 
-    $my_requirements_check = new WP_Requirements( array(
+    $my_plugin_requirements = new WP_Requirements(
+      'My Plugin Name',
+      plugin_basename( __FILE__ ),
+      array(
         'PHP' => 'x.y.z',
         'WordPress => 'x.y.z.',
         'Extensions' => array(
             'extension_name',
             'another_extension',
         )
+      )
     );
  
 Replace 'x.y.z' with the semantic version number you want to require. For PHP extension, just pass the extension name as array string values.
@@ -66,7 +70,8 @@ You could specify an additional autoloader compatible with PHP 5.2, for example 
 
 Either require with `include_once` or with Composer first, then at the beginning of your plugin, after the plugin headers, place some code like this:
 	
-	$my_plugin_requirements = new WP_Requirements( 
+	$my_plugin_requirements = new WP_Requirements(
+	  'My Plugin Name',
 		plugin_basename( __FILE__ ),
 		array(
 			'PHP'       => '5.3.2',
@@ -76,7 +81,7 @@ Either require with `include_once` or with Composer first, then at the beginning
 	
 	if ( $my_plugin_requirements->pass() === false ) {
 		// Deactivate the plugin and print an admin notice.
-		$my_plugin_requirements->halt( 'My Plugin Name' );
+		$my_plugin_requirements->halt();
 		// Halt the execution of the rest of the plugin.
 		return;
 	}
