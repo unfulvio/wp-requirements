@@ -204,17 +204,17 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 					if ( 'Extensions' == $requirement ) {
 						if ( is_array( $found ) ) {
 							$notice .= sprintf(
-								           'Required PHP Extension(s) not found: %s.',
-								           join( ', ', $found )
-							           ) . '<br>';
+										   'Required PHP Extension(s) not found: %s.',
+										   join( ', ', $found )
+									   ) . '<br>';
 						}
 					} else {
 						$notice .= sprintf(
-							           'Required %1$s version: %2$s - Version found: %3$s',
-							           $requirement,
-							           $required,
-							           $found
-						           ) . '<br>';
+									   'Required %1$s version: %2$s - Version found: %3$s',
+									   $requirement,
+									   $required,
+									   $found
+								   ) . '<br>';
 					}
 
 				}
