@@ -96,7 +96,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 			$this->plugin = $plugin;
 			$this->requirements = $requirements;
 
-			if ( $requirements && is_array( $requirements ) ) {
+			if ( ! empty( $requirements ) && is_array( $requirements ) ) {
 
 				$failures = $extensions = array();
 
@@ -181,15 +181,17 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		/**
 		 * Notice message.
 		 *
+		 * @param  string $message An additional message.
+		 *
 		 * @return string
 		 */
-		public function get_notice() {
+		public function get_notice( $message = '' ) {
 
 			$notice   = '';
 			$name     = $this->name;
 			$failures = $this->failures;
 
-			if ( $failures && is_array( $failures ) ) {
+			if ( ! empty( $failures ) && is_array( $failures ) ) {
 
 				$notice  = '<div class="notice notice-error">' . "\n";
 				$notice .= "\t" . '<p>' . "\n";
@@ -219,6 +221,9 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 
 				$notice .= '<em>' . sprintf( 'Please update to meet %s requirements.', $name ) . '</em>' . "\n";
 				$notice .= "\t" . '</p>' . "\n";
+				if ( $message ) {
+					$notice .= $message;
+				}
 				$notice .= '</div>';
 			}
 
@@ -243,10 +248,12 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 
 		/**
 		 * Deactivate plugin and display admin notice.
+		 *
+		 * @param string $message An additional message in notice.
 		 */
-		function halt() {
+		public function halt( $message = '' ) {
 
-			$this->notice = $this->get_notice();
+			$this->notice = $this->get_notice( $message );
 
 			if ( $this->notice && function_exists( 'add_action' ) ) {
 
