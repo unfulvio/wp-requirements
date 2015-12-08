@@ -4,16 +4,16 @@
   "version": "1.4.1",
   "license": "GPL-2.0+",
   "type": "library",
-  "homepage": "https://github.com/nekojira/wp-requirements/",
+  "homepage": "https://github.com/unfulvio/wp-requirements/",
   "support": {
-    "issues": "https://github.com/nekojira/wp-requirements/issues",
-    "source": "https://github.com/nekojira/wp-requirements"
+    "issues": "https://github.com/unfulvio/wp-requirements/issues",
+    "source": "https://github.com/unfulvio/wp-requirements"
   },
   "authors": [
     {
       "name": "Fulvio Notarstefano",
       "email": "fulvio.notarstefano@gmail.com",
-      "homepage": "https://github.com/nekojira",
+      "homepage": "https://github.com/unfulvio",
       "role": "Developer"
     }
   ],
