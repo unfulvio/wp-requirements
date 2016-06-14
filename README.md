@@ -1,12 +1,13 @@
 #WP Requirements
 
-[![GitHub version](https://badge.fury.io/gh/nekojira%2Fwp-requirements.svg)](http://badge.fury.io/gh/nekojira%2Fwp-requirements)
-[![Build Status](https://scrutinizer-ci.com/g/nekojira/wp-requirements/badges/build.png?b=master)](https://scrutinizer-ci.com/g/nekojira/wp-requirements/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nekojira/wp-requirements/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nekojira/wp-requirements/)
+[![GitHub version](https://badge.fury.io/gh/unfulvio%2Fwp-requirements.svg)](https://badge.fury.io/gh/unfulvio%2Fwp-requirements)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/unfulvio/wp-requirements/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/unfulvio/wp-requirements/?branch=master)
 
 Hi! I'm a little utility that you can use in your WordPress plugin development.
 
 Include me in your plugin and I will check if the PHP version or the installed WordPress version is the right one. If not, I will let you know and you can halt your script and display a message in WordPress dashboard so the admin will know why your plugin can't be activated.
+
+> **Necessary foreword** - WordPress  doesn't have - sadly - a dependency management system nor supports Composer. This makes the usage of Composer packages or redistributing/reusing libraries such as this one pointless and even dangerous as more plugins sharing the same library in different versions will collide, resulting in impredictable behavior and errors. Since this is a little library, it's best that you fork it and "namespace" your own the WordPress way (i.e. rename `WP_Requirements` with `Your_Plugin_Prefix_Requirements` for example) while including in your plugin or theme.
 
 ### Usage
 
@@ -37,13 +38,13 @@ Then, you can use the following method to know if it passed (will return *bool*)
 
 There are two ways you can include WP Requirements in your project.
 
-##### Copy this class
+##### Copy this class (recommended way) 
 
 You can copy the class found in `/src/wp-requirements.php` in this project.
 
 > **Important!** If you choose to do so, please rename this class with the prefix used by your project (for example: from `WP_Requirements` to `My_Plugin_Requirements` ). In this way there is less risk of a naming collision between projects.
  
-##### Use Composer
+##### Use Composer (not recommended)
 
 Include this library with:
 
@@ -67,6 +68,9 @@ You could specify an additional autoloader compatible with PHP 5.2, for example 
 			 "xrstf\\Composer52\\Generator::onPostInstallCmd"
 		 ]
 	 }
+	 
+**Note:** it looks like Composer52 has been abandoned and currently moved to https://github.com/composer-php52/composer-php52 - as the current maintainer puts it: "Please do not use this, if you can avoid it. It's a horrible hack, often breaks and is extremely tied to Composer's interna. This package was originally developed in 2012, when PHP 5.2 was much more common on cheap webhosts." -- Just update your freackin' server to use a decent version of PHP.
+	 
  
 ### Usage example
 
