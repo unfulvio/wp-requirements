@@ -92,7 +92,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		 */
 		public function __construct( $name, $plugin, $requirements ) {
 
-			$this->name = htmlspecialchars( strip_tags( $name ) );
+			$this->name = esc_html( wp_strip_all_tags( $name ) );
 			$this->plugin = $plugin;
 			$this->requirements = $requirements;
 
