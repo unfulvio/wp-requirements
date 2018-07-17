@@ -1,19 +1,25 @@
 {
-  "name": "nekojira/wp-requirements",
-  "description": "Utility for WordPress plugin developers to check PHP version, WordPress version and presence of PHP extensions in current installation.",
+  "name": "seothemes/wp-requirements",
+  "description": "Utility for WordPress theme developers to check PHP version, WordPress version and presence of PHP extensions in current installation.",
   "version": "1.4.1",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "type": "library",
-  "homepage": "https://github.com/unfulvio/wp-requirements/",
+  "homepage": "https://github.com/seothemes/wp-requirements/",
   "support": {
-    "issues": "https://github.com/unfulvio/wp-requirements/issues",
-    "source": "https://github.com/unfulvio/wp-requirements"
+    "issues": "https://github.com/seothemes/wp-requirements/issues",
+    "source": "https://github.com/seothemes/wp-requirements"
   },
   "authors": [
     {
       "name": "Fulvio Notarstefano",
       "email": "fulvio.notarstefano@gmail.com",
       "homepage": "https://github.com/unfulvio",
+      "role": "Developer"
+    },
+    {
+      "name": "Lee Anthony",
+      "email": "seothemeswp@gmail.com",
+      "homepage": "https://github.com/seothemes",
       "role": "Developer"
     }
   ],
@@ -24,8 +30,8 @@
     "version"
   ],
   "autoload": {
-    "psr-0": {
-      "": "src"
-    }
+    "files": [
+      "src/wp-requirements.php"
+    ]
   }
 }

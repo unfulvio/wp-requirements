@@ -6,9 +6,9 @@
  *
  * @package WP_Requirements
  * @version 1.4.0
- * @author  Fulvio Notarstefano <fulvio.notarstefano@gmail.com>
- * @link    https://github.com/nekojira/wp-requirements
- * @license GPL2+
+ * @author  Lee Anthony <seothemeswp@gmail.com>
+ * @link    https://github.com/seothemes/wp-requirements
+ * @license GPL-2.0-or-later
  */
 
 if ( ! class_exists( 'WP_Requirements' ) ) {
@@ -16,22 +16,20 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 	class WP_Requirements {
 
 		/**
-		 * Plugin name.
+		 * Theme name.
 		 *
 		 * @access private
-		 * @var string
+		 * @var    string
 		 */
 		private $name = '';
 
 		/**
-		 * Plugin main file.
-		 *
-		 * plugin_basename( __FILE__ )
+		 * Theme directory.
 		 *
 		 * @access private
-		 * @var string
+		 * @var    string
 		 */
-		private $plugin = '';
+		private $theme = '';
 
 		/**
 		 * WordPress.
@@ -87,13 +85,13 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		 * Run checks.
 		 *
 		 * @param string $name         The plugin name.
-		 * @param string $plugin       Output of `plugin_basename( __FILE__ )`.
+		 * @param string $theme        Output of `plugin_basename( __FILE__ )`.
 		 * @param array  $requirements Associative array with requirements.
 		 */
-		public function __construct( $name, $plugin, $requirements ) {
+		public function __construct( $name, $theme, $requirements ) {
 
 			$this->name = esc_html( wp_strip_all_tags( $name ) );
-			$this->plugin = $plugin;
+			$this->plugin = $theme;
 			$this->requirements = $requirements;
 
 			if ( ! empty( $requirements ) && is_array( $requirements ) ) {
@@ -119,7 +117,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 					}
 				}
 
-				// Check fo PHP version.
+				// Check for PHP version.
 				if ( $requirements['PHP'] && is_string( $requirements['PHP'] ) ) {
 					if ( version_compare( PHP_VERSION, $requirements['PHP'] ) === -1 ) {
 						$failures['PHP'] = PHP_VERSION;
@@ -127,7 +125,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 					}
 				}
 
-				// Check fo PHP Extensions.
+				// Check for PHP Extensions.
 				if ( $requirements['Extensions'] && is_array( $requirements['Extensions'] ) ) {
 					foreach ( $requirements['Extensions'] as $extension ) {
 						if ( $extension && is_string( $extension ) ) {
@@ -203,18 +201,18 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 
 					if ( 'Extensions' == $requirement ) {
 						if ( is_array( $found ) ) {
-							$notice .= sprintf( 
-									'Required PHP Extension(s) not found: %s.', 
-									join( ', ', $found ) 
-								) . '<br>';
+							$notice .= sprintf(
+									'Required PHP Extension(s) not found: %s.',
+									join( ', ', $found )
+								) . '';
 						}
 					} else {
-						$notice .= sprintf( 
+						$notice .= sprintf(
 								'Required %1$s version: %2$s - Version found: %3$s',
-								$requirement, 
-								$required, 
-								$found 
-							) . '<br>';
+								$requirement,
+								$required,
+								$found
+							) . '';
 					}
 
 				}
@@ -247,7 +245,7 @@ if ( ! class_exists( 'WP_Requirements' ) ) {
 		}
 
 		/**
-		 * Deactivate plugin and display admin notice.
+		 * Deactivate theme and display admin notice.
 		 *
 		 * @param string $message An additional message in notice.
 		 */
