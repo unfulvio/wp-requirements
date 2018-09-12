@@ -1,4 +1,11 @@
-#WP Requirements
+
+**This project is retired and you should not use it.**
+
+For reference only.
+
+---
+
+# WP Requirements
 
 [![GitHub version](https://badge.fury.io/gh/unfulvio%2Fwp-requirements.svg)](https://badge.fury.io/gh/unfulvio%2Fwp-requirements)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/unfulvio/wp-requirements/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/unfulvio/wp-requirements/?branch=master)
